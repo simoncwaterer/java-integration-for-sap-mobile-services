@@ -4,7 +4,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasKey;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -13,22 +13,22 @@ import java.util.Optional;
 import java.util.function.Function;
 
 import org.apache.commons.io.IOUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class MobileServicesBindingTest {
+class MobileServicesBindingTest {
 
 	private Map<String, String> envVariables;
 	private Function<String, String> environmentAccessor;
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		envVariables = new HashMap<>();
 		environmentAccessor = envVariables::get;
 	}
 
 	@Test
-	public void testBindingTenantModeShared() throws Exception {
+	void testBindingTenantModeShared() throws Exception {
 		MobileServicesBinding settings = MobileServicesBinding.fromResource("mobileservices-binding-shared.json");
 		assertThat(settings.getAppName(), is("appName"));
 		assertThat(settings.getEndpoints(), hasKey("mobileservices"));
@@ -45,7 +45,7 @@ public class MobileServicesBindingTest {
 	}
 
 	@Test
-	public void testBindingTenantModeDedicated() throws Exception {
+	void testBindingTenantModeDedicated() throws Exception {
 		MobileServicesBinding settings = MobileServicesBinding.fromResource("mobileservices-binding-dedicated.json");
 		assertThat(settings.getAppName(), is("appName"));
 		assertThat(settings.getEndpoints(), hasKey("mobileservices"));
@@ -62,13 +62,13 @@ public class MobileServicesBindingTest {
 	}
 
 	@Test
-	public void testBindingMissingTenantMode() throws Exception {
+	void testBindingMissingTenantMode() throws Exception {
 		MobileServicesBinding settings = MobileServicesBinding.fromResource("mobileservices-binding-missing-tenant-mode.json");
 		assertThat(settings.getClientConfiguration().getTenantMode(), is(XsuaaClientConfiguration.TenantMode.DEDICATED));
 	}
 
 	@Test
-	public void testBindingInvalidTenantMode() throws Exception {
+	void testBindingInvalidTenantMode() throws Exception {
 		MobileServicesBinding settings = MobileServicesBinding.fromResource("mobileservices-binding-invalid-tenant-mode.json");
 		IllegalStateException e = assertThrows(IllegalStateException.class, () -> {
 			settings.getClientConfiguration().getTenantMode();
@@ -78,7 +78,7 @@ public class MobileServicesBindingTest {
 	}
 
 	@Test
-	public void testBindingVcapEmpty() throws Exception {
+	void testBindingVcapEmpty() throws Exception {
 		String vcapServices = IOUtils.resourceToString("/vcap/vcap-services-empty.json", StandardCharsets.UTF_8);
 		envVariables.put("VCAP_SERVICES", vcapServices);
 
@@ -86,7 +86,7 @@ public class MobileServicesBindingTest {
 	}
 
 	@Test
-	public void testBindingVcapNoMobileServices() throws Exception {
+	void testBindingVcapNoMobileServices() throws Exception {
 		String vcapServices = IOUtils.resourceToString("/vcap/vcap-services-no-mobile-services.json", StandardCharsets.UTF_8);
 		envVariables.put("VCAP_SERVICES", vcapServices);
 
@@ -94,7 +94,7 @@ public class MobileServicesBindingTest {
 	}
 
 	@Test
-	public void testBindingVcapSingleMatch() throws Exception {
+	void testBindingVcapSingleMatch() throws Exception {
 		String vcapServices = IOUtils.resourceToString("/vcap/vcap-services-single-match.json", StandardCharsets.UTF_8);
 		envVariables.put("VCAP_SERVICES", vcapServices);
 
@@ -116,7 +116,7 @@ public class MobileServicesBindingTest {
 	}
 
 	@Test
-	public void testBindingVcapMultipleMatches() throws Exception {
+	void testBindingVcapMultipleMatches() throws Exception {
 		String vcapServices = IOUtils.resourceToString("/vcap/vcap-services-multiple-matches.json", StandardCharsets.UTF_8);
 		envVariables.put("VCAP_SERVICES", vcapServices);
 

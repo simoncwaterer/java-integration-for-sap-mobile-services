@@ -249,7 +249,7 @@ class DTOGcmNotification {
 		StringBuilder sb = new StringBuilder();
 		sb.append(seconds);
 		if (nano_rest > 0) {
-			sb.append(".").append(String.format("%09d", nano_rest));
+			sb.append(".").append("%09d".formatted(nano_rest));
 		}
 		sb.append("s");
 		return sb.toString();

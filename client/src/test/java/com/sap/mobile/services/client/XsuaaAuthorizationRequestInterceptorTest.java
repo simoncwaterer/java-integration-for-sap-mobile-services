@@ -2,8 +2,8 @@ package com.sap.mobile.services.client;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 
 import java.net.URI;
@@ -11,8 +11,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -28,7 +28,7 @@ import com.sap.cloud.security.xsuaa.client.OAuth2TokenResponse;
 import com.sap.cloud.security.xsuaa.tokenflows.ClientCredentialsTokenFlow;
 import com.sap.cloud.security.xsuaa.tokenflows.TokenFlowException;
 
-public class XsuaaAuthorizationRequestInterceptorTest {
+class XsuaaAuthorizationRequestInterceptorTest {
 
 	private MockClientHttpRequest initialRequest;
 	private MockClientHttpResponse expectedResponse;
@@ -38,8 +38,8 @@ public class XsuaaAuthorizationRequestInterceptorTest {
 	private ClientCredentialsTokenFlow tokenFlow;
 	private XsuaaAuthorizationRequestInterceptor testee;
 
-	@Before
-	public void prepare() {
+	@BeforeEach
+	void prepare() {
 		tokenFlow = Mockito.mock(ClientCredentialsTokenFlow.class);
 		tenantSupplier = Mockito.mock(TenantSupplier.class);
 
@@ -52,7 +52,7 @@ public class XsuaaAuthorizationRequestInterceptorTest {
 	}
 
 	@Test
-	public void testInterceptTenantModeShared() throws Exception {
+	void testInterceptTenantModeShared() throws Exception {
 		testee = new XsuaaAuthorizationRequestInterceptor(tokenFlow, tenantSupplier, XsuaaClientConfiguration.TenantMode.SHARED);
 
 		final ClientHttpRequestExecution execution = Mockito.mock(ClientHttpRequestExecution.class);
@@ -78,7 +78,7 @@ public class XsuaaAuthorizationRequestInterceptorTest {
 	}
 
 	@Test
-	public void testInterceptForTenantTenantModeShared() throws Exception {
+	void testInterceptForTenantTenantModeShared() throws Exception {
 		testee = new XsuaaAuthorizationRequestInterceptor(tokenFlow, tenantSupplier, XsuaaClientConfiguration.TenantMode.SHARED);
 
 		final String tenantZoneId = UUID.randomUUID().toString();
@@ -107,7 +107,7 @@ public class XsuaaAuthorizationRequestInterceptorTest {
 	}
 
 	@Test
-	public void testInterceptTenantModeDedicated() throws Exception {
+	void testInterceptTenantModeDedicated() throws Exception {
 		testee = new XsuaaAuthorizationRequestInterceptor(tokenFlow, tenantSupplier, XsuaaClientConfiguration.TenantMode.DEDICATED);
 
 		final ClientHttpRequestExecution execution = Mockito.mock(ClientHttpRequestExecution.class);
@@ -133,7 +133,7 @@ public class XsuaaAuthorizationRequestInterceptorTest {
 	}
 
 	@Test
-	public void testInterceptForTenantTenantModeDedicated() throws Exception {
+	void testInterceptForTenantTenantModeDedicated() throws Exception {
 		testee = new XsuaaAuthorizationRequestInterceptor(tokenFlow, tenantSupplier, XsuaaClientConfiguration.TenantMode.DEDICATED);
 
 		final String tenantZoneId = UUID.randomUUID().toString();
@@ -162,7 +162,7 @@ public class XsuaaAuthorizationRequestInterceptorTest {
 	}
 
 	@Test
-	public void testInterceptWithXsuaaExceptions() throws Exception {
+	void testInterceptWithXsuaaExceptions() throws Exception {
 		final ClientHttpRequestExecution execution = (req, body) -> {
 			fail("must not be called");
 			return null;
@@ -170,10 +170,14 @@ public class XsuaaAuthorizationRequestInterceptorTest {
 
 		Mockito.when(tenantSupplier.get()).thenReturn(Optional.empty());
 		Mockito.when(tokenFlow.execute())
-				.thenThrow(new TokenFlowException("Error retrieving JWT token. " +
-						"Received status code 401 UNAUTHORIZED. Call to XSUAA was not successful"))
-				.thenThrow(new IllegalArgumentException("Client credentials flow request is not valid. " +
-						"Make sure all mandatory fields are set."));
+				.thenThrow(new TokenFlowException("""
+						Error retrieving JWT token. \
+						Received status code 401 UNAUTHORIZED. Call to XSUAA was not successful\
+						"""))
+				.thenThrow(new IllegalArgumentException("""
+						Client credentials flow request is not valid. \
+						Make sure all mandatory fields are set.\
+						"""));
 
 		assertThrows(RestClientException.class, () -> {
 			testee.intercept(initialRequest, new byte[0], execution);

@@ -1,15 +1,17 @@
 package com.sap.mobile.services.client;
 
-import org.junit.Assert;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+
+import org.junit.jupiter.api.Test;
 
 import com.sap.mobile.services.client.BuildProperties;
 
-public class BuildPropertiesTest {
+class BuildPropertiesTest {
 
 	@Test
-	public void testBuildVersion() throws Exception {
+	void testBuildVersion() throws Exception {
 		BuildProperties props = BuildProperties.getInstance();
-		Assert.assertNotNull(props.getVersion());
+		assertNotNull(props.getVersion());
 	}
 }

@@ -15,7 +15,7 @@ import com.sap.mobile.services.client.push.PushResponse;
 @SpringBootTest(classes = {
 		MobileServicesClientConfiguration.class
 })
-public class PushClientTest {
+class PushClientTest {
 
 	@Autowired
 	private PushClientProvider pushClientProvider;

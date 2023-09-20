@@ -77,8 +77,8 @@ public final class PushClientBuilder {
 		} else {
 			serviceKey = pushServiceKeys.stream().filter(sk -> serviceKeyAlias.equals(sk.getAlias())).findFirst()
 					.orElseThrow(() -> new IllegalArgumentException(
-							String.format("Service key with name %s not found in configuration file.",
-									serviceKeyAlias)));
+					"Service key with name %s not found in configuration file.".formatted(
+							serviceKeyAlias)));
 		}
 		if (serviceKey.getUaa() != null) {
 			MobileServicesBinding binding = new MobileServicesBinding();

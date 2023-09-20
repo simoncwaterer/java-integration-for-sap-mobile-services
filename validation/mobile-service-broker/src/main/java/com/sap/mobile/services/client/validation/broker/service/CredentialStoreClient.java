@@ -78,7 +78,7 @@ public class CredentialStoreClient {
 				.defaultHeader("sapcp-credstore-namespace", "default")
 				.additionalInterceptors((request, body, execution) -> {
 					final String token = tokenProvider.getAccessToken();
-					request.getHeaders().add(HttpHeaders.AUTHORIZATION, String.format("bearer %s", token));
+					request.getHeaders().add(HttpHeaders.AUTHORIZATION, "bearer %s".formatted(token));
 					return execution.execute(request, body);
 				}).additionalInterceptors((request, body, execution) -> {
 					final ClientHttpResponse response = execution.execute(request, body);

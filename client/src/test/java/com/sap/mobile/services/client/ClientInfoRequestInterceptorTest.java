@@ -1,25 +1,29 @@
 package com.sap.mobile.services.client;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpResponse;
 
-public class ClientInfoRequestInterceptorTest {
+class ClientInfoRequestInterceptorTest {
 
 	private ClientInfoRequestInterceptor testee;
 
-	@Before
-	public void setUp() throws Exception {
+	@BeforeEach
+	void setUp() throws Exception {
 		testee = new ClientInfoRequestInterceptor(BuildProperties.getInstance());
 	}
 
 	@Test
-	public void testIntercept() throws Exception {
+	void testIntercept() throws Exception {
 		HttpRequest request = Mockito.mock(HttpRequest.class);
 		ClientHttpRequestExecution execution = Mockito.mock(ClientHttpRequestExecution.class);
 		ClientHttpResponse response = Mockito.mock(ClientHttpResponse.class);
@@ -29,9 +33,9 @@ public class ClientInfoRequestInterceptorTest {
 		Mockito.when(request.getHeaders()).thenReturn(headers);
 		Mockito.when(execution.execute(request, null)).thenReturn(response);
 
-		Assert.assertSame(response, testee.intercept(request, null, execution));
-		Assert.assertNotNull(headers.getFirst(Constants.Headers.CLIENT_VERSION_HEADER_NAME));
-		Assert.assertEquals("Java", headers.getFirst(Constants.Headers.CLIENT_LANGUAGE_HEADER_NAME));
+		assertSame(response, testee.intercept(request, null, execution));
+		assertNotNull(headers.getFirst(Constants.Headers.CLIENT_VERSION_HEADER_NAME));
+		assertEquals("Java", headers.getFirst(Constants.Headers.CLIENT_LANGUAGE_HEADER_NAME));
 
 		Mockito.verify(execution).execute(request, null);
 	}

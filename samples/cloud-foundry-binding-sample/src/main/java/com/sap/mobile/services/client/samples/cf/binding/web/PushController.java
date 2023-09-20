@@ -39,7 +39,7 @@ public class PushController {
 	}
 
 	@PostMapping(path = "/users/{userId}", produces = "text/plain")
-	public ResponseEntity<?> pushToUser(@PathVariable("userId") final String userId) {
+	public ResponseEntity<?> pushToUser(@PathVariable final String userId) {
 		try {
 			final Collection<String> userIds = Collections.singletonList(userId);
 			final PushPayload pushPayload = PushPayload.builder()

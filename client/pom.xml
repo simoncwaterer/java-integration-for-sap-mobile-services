@@ -21,13 +21,13 @@
 		<spring.version>6.0.11</spring.version>
 		<spring-boot.version>3.1.2</spring-boot.version>
 		<token-client.version>3.1.2</token-client.version>
-		<lombok.version>1.18.28</lombok.version>
+		<lombok.version>1.18.30</lombok.version>
 		<jackson-databind.version>2.15.2</jackson-databind.version>
 		<slf4j-api.version>2.0.9</slf4j-api.version>
 		<httpclient.version>4.5.14</httpclient.version>
 		<junit.version>4.13.2</junit.version>
 		<hamcrest-core.version>2.2</hamcrest-core.version>
-		<mockito-core.version>4.10.0</mockito-core.version>
+		<mockito-core.version>4.11.0</mockito-core.version>
 		<commons-io.version>2.13.0</commons-io.version>
 	</properties>
 
@@ -46,9 +46,9 @@
 
 		<!-- XSUAA Dependencies -->
 		<dependency>
-				<groupId>com.sap.cloud.security.xsuaa</groupId>
-				<artifactId>token-client</artifactId>
-				<version>${token-client.version}</version>
+			<groupId>com.sap.cloud.security.xsuaa</groupId>
+			<artifactId>token-client</artifactId>
+			<version>${token-client.version}</version>
 		</dependency>
 
 		<!-- Misc Dependencies -->
@@ -82,15 +82,15 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>${junit.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.hamcrest</groupId>
 			<artifactId>hamcrest-core</artifactId>
 			<version>${hamcrest-core.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<version>5.10.0</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>

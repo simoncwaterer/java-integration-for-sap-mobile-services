@@ -136,8 +136,8 @@ public final class MobileServicesBinding {
 				return XsuaaClientConfiguration.TenantMode.DEDICATED;
 			} else {
 				return XsuaaClientConfiguration.TenantMode.parse(tenantMode)
-						.orElseThrow(() -> new IllegalStateException(String.format(
-								"Invalid tenant-mode '%s', supported types are %s", tenantMode,
+						.orElseThrow(() -> new IllegalStateException(
+						"Invalid tenant-mode '%s', supported types are %s".formatted(tenantMode,
 								XsuaaClientConfiguration.TenantMode.acceptedTypes())));
 			}
 		}

@@ -90,7 +90,7 @@ public class CFClientConfiguration {
 				.flatMap(spaces -> spaces.size() > 0 ? Mono.just(spaces.get(0)) : Mono.empty())
 				.blockOptional()
 				.orElseThrow(() -> {
-					return new BeanInitializationException(String.format("Failed to find locate space (%s/%s)", orgName, spaceName));
+					return new BeanInitializationException("Failed to find locate space (%s/%s)".formatted(orgName, spaceName));
 				});
 	}
 

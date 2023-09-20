@@ -50,7 +50,7 @@ class XsuaaAuthorizationRequestInterceptor implements ClientHttpRequestIntercept
 		}
 
 		request.getHeaders().set(HttpHeaders.AUTHORIZATION,
-				String.format("%s %s", tokenResponse.getTokenType(), tokenResponse.getAccessToken()));
+				"%s %s".formatted(tokenResponse.getTokenType(), tokenResponse.getAccessToken()));
 
 		if (tenantId != null && tenantMode != XsuaaClientConfiguration.TenantMode.SHARED) {
 			request.getHeaders().set(Constants.Headers.TENANT_ID_HEADER, tenantId);
@@ -61,8 +61,8 @@ class XsuaaAuthorizationRequestInterceptor implements ClientHttpRequestIntercept
 
 	private boolean isMissingTenantError(final Exception e) {
 		final Throwable cause = e.getCause();
-		if (cause instanceof OAuth2ServiceException) {
-			final Integer statusCode = ((OAuth2ServiceException) cause).getHttpStatusCode();
+		if (cause instanceof OAuth2ServiceException exception) {
+			final Integer statusCode = exception.getHttpStatusCode();
 			return statusCode != null && statusCode.equals(HttpStatus.NOT_FOUND.value());
 		}
 
